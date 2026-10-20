@@ -42,7 +42,7 @@ export default function Graveyard() {
             <h1 className="font-serif text-4xl text-stone-100 [text-shadow:0_0_30px_rgba(160,255,200,0.25)] md:text-7xl">
               Graveyard
             </h1>
-            <p className="mt-2 font-serif text-l text-stone-300">
+            <p className="mt-2 font-serif text-l text-stone-300 ">
               Where unfinished ideas rest... for now.
             </p>
           </div>

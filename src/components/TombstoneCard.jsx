@@ -3,31 +3,31 @@ import { motion } from 'framer-motion'
 
 const statusConfig = {
   Buried: {
-    badge: 'bg-amber-200 text-stone-900',
+    badge: 'bg-amber-300 text-stone-900 shadow-[0_0_16px_rgba(252,211,77,0.95)]',
     text: 'text-amber-100',
     bar: 'bg-amber-100/80',
     glow: 'drop-shadow-[0_0_8px_rgba(230,200,150,0.12)] group-hover:drop-shadow-[0_0_22px_rgba(230,200,150,0.45)]',
   },
   Haunting: {
-    badge: 'bg-orange-400 text-stone-900',
+    badge: 'bg-orange-400 text-stone-900 shadow-[0_0_16px_rgba(251,146,60,0.95)]',
     text: 'text-orange-300',
     bar: 'bg-orange-400',
     glow: 'drop-shadow-[0_0_14px_rgba(251,146,60,0.35)] group-hover:drop-shadow-[0_0_26px_rgba(251,146,60,0.65)]',
   },
   Resurrected: {
-    badge: 'bg-emerald-400 text-stone-900',
+    badge: 'bg-[#39ff88] text-stone-900 shadow-[0_0_18px_rgba(57,255,136,0.95)]',
     text: 'text-emerald-300',
     bar: 'bg-emerald-400',
     glow: 'drop-shadow-[0_0_14px_rgba(52,211,153,0.4)] group-hover:drop-shadow-[0_0_26px_rgba(52,211,153,0.7)]',
   },
   Repurposed: {
-    badge: 'bg-sky-300 text-stone-900',
+    badge: 'bg-cyan-300 text-stone-900 shadow-[0_0_16px_rgba(103,232,249,0.95)]',
     text: 'text-sky-300',
     bar: 'bg-sky-300',
     glow: 'drop-shadow-[0_0_8px_rgba(125,211,252,0.15)] group-hover:drop-shadow-[0_0_22px_rgba(125,211,252,0.5)]',
   },
   Archived: {
-    badge: 'bg-slate-300 text-stone-900',
+    badge: 'bg-violet-300 text-stone-900 shadow-[0_0_16px_rgba(196,181,253,0.95)]',
     text: 'text-slate-300',
     bar: 'bg-slate-300',
     glow: 'drop-shadow-[0_0_8px_rgba(203,213,225,0.12)] group-hover:drop-shadow-[0_0_22px_rgba(203,213,225,0.4)]',
@@ -57,7 +57,7 @@ export default function TombstoneCard({ project }) {
         {/* text on the stone face */}
         <div className="absolute bottom-[11%] left-[27%] right-[11%] top-[37%] flex flex-col items-center rounded-xl bg-black/35 px-[3cqw] py-[2.5cqw] text-center [text-shadow:0_1px_4px_rgba(0,0,0,0.95)]">
           <span
-            className={`rounded-full px-[4cqw] py-[1cqw] font-semibold [font-size:3.8cqw] [text-shadow:none] ${cfg.badge}`}
+           className={`relative -left-[3cqw] rounded-full px-[4cqw] py-[1cqw] font-semibold [font-size:3.8cqw] [text-shadow:none] ${cfg.badge}`}
           >
             {project.status}
           </span>

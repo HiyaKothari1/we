@@ -2,7 +2,7 @@ export const sampleProjects = [
   {
     id: 'prepsport',
     name: 'Prepsport',
-    icon: '📖',
+    icon: '🥀',
     years: '2025 - 2026',
     status: 'Haunting',
     progress: 65,
@@ -20,7 +20,7 @@ export const sampleProjects = [
   {
     id: 'moviecircle',
     name: 'MovieCircle',
-    icon: '🎬',
+    icon: '👻',
     years: '2025',
     status: 'Buried',
     progress: 40,
@@ -38,7 +38,7 @@ export const sampleProjects = [
   {
     id: 'campus-connect',
     name: 'Campus Connect',
-    icon: '👥',
+    icon: '🌱',
     years: '2024 - 2025',
     status: 'Resurrected',
     progress: 80,
@@ -56,7 +56,7 @@ export const sampleProjects = [
   {
     id: 'greencart',
     name: 'GreenCart',
-    icon: '🌱',
+    icon: '🛒',
     years: '2024 - 2025',
     status: 'Buried',
     progress: 25,

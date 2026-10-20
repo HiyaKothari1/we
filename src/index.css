@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&family=Metal+Mania&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-metal: 'Metal Mania', serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  --color-night: #07110d;
+  --color-moss: #14261c;
+  --color-fern: #8ee6a0;
+  --color-lantern: #f5b862;
+  --color-moon: #e8ecea;
+}
+
+body {
+  margin: 0;
+  background: var(--color-night);
+  color: var(--color-moon);
+  font-family: var(--font-sans);
+}

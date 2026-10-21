@@ -3,28 +3,38 @@ import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import TombstoneCard from '../components/TombstoneCard'
 import { sampleProjects, statuses } from '../data/projects'
-
-const years = [...new Set(sampleProjects.map((p) => p.buriedAt.slice(0, 4)))].sort().reverse()
+import { getProjects } from '../utils/storage'
 
 export default function Graveyard() {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('All')
   const [sort, setSort] = useState('recent')
   const [year, setYear] = useState('All')
+  const [allProjects] = useState(() => [...getProjects(), ...sampleProjects])
 
-  const projects = sampleProjects
+  const years = [
+    ...new Set(
+      allProjects.map((p) => (p.buriedAt || '').slice(0, 4)).filter(Boolean)
+    ),
+  ]
+    .sort()
+    .reverse()
+
+  const projects = allProjects
     .filter((p) => filter === 'All' || p.status === filter)
-    .filter((p) => year === 'All' || p.buriedAt.startsWith(year))
+    .filter((p) => year === 'All' || (p.buriedAt || '').startsWith(year))
     .filter((p) =>
-      (p.name + p.summary + p.tags.join(' ')).toLowerCase().includes(search.toLowerCase())
+      `${p.name || ''} ${p.summary || ''} ${(p.tags || []).join(' ')}`
+        .toLowerCase()
+        .includes(search.toLowerCase())
     )
     .sort((a, b) =>
       sort === 'recent'
-        ? b.buriedAt.localeCompare(a.buriedAt)
-        : a.name.localeCompare(b.name)
+        ? (b.buriedAt || '').localeCompare(a.buriedAt || '')
+        : (a.name || '').localeCompare(b.name || '')
     )
 
-  const count = (s) => sampleProjects.filter((p) => p.status === s).length
+  const count = (s) => allProjects.filter((p) => p.status === s).length
 
   return (
     <div
@@ -39,10 +49,10 @@ export default function Graveyard() {
         {/* header */}
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <h1 className="font-serif text-4xl text-stone-100 [text-shadow:0_0_30px_rgba(160,255,200,0.25)] md:text-7xl">
+            <h1 className="font-serif text-6xl text-stone-100 [text-shadow:0_0_30px_rgba(160,255,200,0.25)] md:text-7xl">
               Graveyard
             </h1>
-            <p className="mt-2 font-serif text-l text-stone-300 ">
+            <p className="mt-2 font-serif text-xl text-stone-300">
               Where unfinished ideas rest... for now.
             </p>
           </div>
@@ -74,7 +84,7 @@ export default function Graveyard() {
                   : 'border-stone-500/50 bg-black/50 text-stone-200 hover:border-emerald-400/60'
               }`}
             >
-              {s} ({s === 'All' ? sampleProjects.length : count(s)})
+              {s} ({s === 'All' ? allProjects.length : count(s)})
             </button>
           ))}
 

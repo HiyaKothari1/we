@@ -26,6 +26,8 @@ export default function Bury() {
         reason: '',
     reasonNote: '',
     epitaph: '',
+    wantsResume: '',
+    resumeDate: '',
   })
 
   const update = (field, value) => setForm({ ...form, [field]: value })
@@ -52,6 +54,8 @@ export default function Bury() {
       reason: form.reason,
       reasonNote: form.reasonNote.trim(),
       epitaph: form.epitaph.trim(),
+      wantsResume: form.wantsResume === 'yes',
+      resumeDate: form.wantsResume === 'yes' ? form.resumeDate : '',
       salvage: lines(form.salvage),
       link: form.link.trim(),
       createdAt: form.startDate || new Date().toISOString().slice(0, 10),
@@ -61,7 +65,11 @@ export default function Bury() {
   }
 
   const next = () => {
-        if (step === 3) {
+            if (step === 3) {
+      if (form.wantsResume === 'yes' && !form.resumeDate) {
+        setError('Please pick a date to resume')
+        return
+      }
       save()
       return
     }
@@ -285,6 +293,49 @@ export default function Bury() {
                     onChange={(e) => update('epitaph', e.target.value)}
                   />
                 </div>
+                                <div>
+                  <label className="mb-2 block">Do you want to resume this project?</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { v: 'yes', t: '🔥 Yes, someday' },
+                      { v: 'no', t: '😴 Not now' },
+                    ].map((o) => (
+                      <button
+                        key={o.v}
+                        type="button"
+                        onClick={() => {
+                          update('wantsResume', o.v)
+                          setError('')
+                        }}
+                        className={`rounded-xl border px-4 py-3 text-sm transition ${
+                          form.wantsResume === o.v
+                            ? 'border-fern bg-fern/15 text-fern shadow-[0_0_14px_rgba(142,230,160,0.35)]'
+                            : 'border-moon/20 bg-night/60 hover:border-fern/50'
+                        }`}
+                      >
+                        {o.t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {form.wantsResume === 'yes' && (
+                  <div>
+                    <label className="mb-2 block">I want to start again from</label>
+                    <input
+                      type="date"
+                      min={new Date().toISOString().slice(0, 10)}
+                      className={inputClass}
+                      value={form.resumeDate}
+                      onChange={(e) => {
+                        update('resumeDate', e.target.value)
+                        setError('')
+                      }}
+                    />
+                    {error && <p className="mt-1 text-sm text-red-400">{error}</p>}
+                    <p className="mt-1 text-xs text-moon/60">We'll remind you on this date.</p>
+                  </div>
+                )}
               </div>
             )}
           </div>

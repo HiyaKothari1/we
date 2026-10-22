@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar'
 import { sampleProjects } from '../data/projects'
 import { getProjects } from '../utils/storage'
 
+
 const badgeClass = {
   Buried: 'bg-amber-300 text-stone-900 shadow-[0_0_16px_rgba(252,211,77,0.6)]',
   Haunting: 'bg-orange-400 text-stone-900 shadow-[0_0_16px_rgba(251,146,60,0.6)]',
@@ -21,7 +22,6 @@ const tabs = [
   { key: 'overview', label: 'Overview', icon: BookOpen },
   { key: 'autopsy', label: 'Autopsy', icon: Skull },
   { key: 'timeline', label: 'Timeline', icon: Clock },
-  { key: 'compass', label: 'Revival Compass', icon: Compass },
   { key: 'notes', label: 'Notes', icon: FileText },
 ]
 
@@ -142,12 +142,18 @@ export default function ProjectDetail() {
         <Navbar />
 
         <main className="mx-auto max-w-[1400px] px-10 pb-24 pt-24">
-          <Link
-            to="/graveyard"
-            className="inline-flex items-center gap-2 rounded-lg border border-moon/30 bg-black/60 px-4 py-2 text-sm transition hover:border-fern"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to Graveyard
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link
+              to="/graveyard"
+              className="inline-flex items-center gap-2 rounded-lg border border-moon/30 bg-black/60 px-4 py-2 text-sm transition hover:border-fern"
+            >
+              <ArrowLeft className="h-4 w-4" /> Back to Graveyard
+            </Link>
+
+            <button className="inline-flex items-center gap-2 rounded-lg border border-moon/30 bg-black/60 px-5 py-2 text-sm transition hover:border-fern">
+              <Pencil className="h-4 w-4" /> Edit
+            </button>
+          </div>
 
           <div className="mt-6 grid gap-12 lg:grid-cols-[1fr_340px]">
             {/* ============ LEFT ============ */}
@@ -186,16 +192,6 @@ export default function ProjectDetail() {
                   </div>
                 </div>
 
-                {/* Edit + Compass buttons */}
-                <div className="flex gap-3 lg:absolute lg:left-[46%] lg:top-4 lg:z-10">
-                  <button className="inline-flex items-center gap-2 rounded-lg border border-moon/30 bg-black/60 px-5 py-2 text-sm transition hover:border-fern">
-                    <Pencil className="h-4 w-4" /> Edit
-                  </button>
-                  <button className="inline-flex items-center gap-2 rounded-lg bg-fern/90 px-5 py-2 text-sm font-semibold text-night shadow-[0_0_20px_rgba(142,230,160,0.4)] transition hover:bg-fern">
-                    <Compass className="h-4 w-4" /> Open Revival Compass
-                  </button>
-                </div>
-
                 {/* Memorial slab */}
                 <div className="relative w-full shrink-0 rounded-t-[60px] rounded-b-xl border border-moon/20 bg-black/55 px-6 pb-5 pt-8 text-center shadow-[inset_0_0_30px_rgba(0,0,0,0.6)] lg:mt-24 lg:w-72">
                   <Skull className="absolute -top-5 left-1/2 h-9 w-9 -translate-x-1/2 text-moon/80" />
@@ -229,7 +225,7 @@ export default function ProjectDetail() {
               </nav>
 
               {/* Tab content */}
-              {tab !== 'overview' ? (
+                                          {tab !== 'overview' ? (
                 <Panel className="mt-12">
                   <p className="text-moon/70">{tabs.find((t) => t.key === tab).label} — coming soon.</p>
                 </Panel>
@@ -366,9 +362,12 @@ export default function ProjectDetail() {
                   className="mx-auto my-2 h-44 w-44 object-contain drop-shadow-[0_0_18px_rgba(142,230,160,0.6)]"
                 />
 
-                <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-fern/90 py-2.5 font-semibold text-night shadow-[0_0_20px_rgba(142,230,160,0.4)] transition hover:bg-fern">
+                <Link
+                  to={`/compass/${project.id}`}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-fern/90 py-2.5 font-semibold text-night shadow-[0_0_20px_rgba(142,230,160,0.4)] transition hover:bg-fern"
+                >
                   <Compass className="h-4 w-4" /> Open Revival Compass
-                </button>
+                </Link>
               </div>
 
               <Panel>

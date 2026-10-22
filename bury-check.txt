@@ -1,0 +1,55 @@
+﻿  const navigate = useNavigate()
+  const [step, setStep] = useState(0)
+  const [error, setError] = useState('')
+  const [form, setForm] = useState({
+    name: '',
+    tags: '',
+    link: '',
+    startDate: '',
+    lastActive: '',
+    vision: '',
+    completed: '',
+    progress: 50,
+    unfinished: '',
+    salvage: '',
+        reason: '',
+    reasonNote: '',
+    epitaph: '',
+  })
+
+  const update = (field, value) => setForm({ ...form, [field]: value })
+    const lines = (t) => t.split('\n').map((s) => s.trim()).filter(Boolean)
+
+  const save = () => {
+    const y1 = form.startDate.slice(0, 4)
+    const y2 = form.lastActive.slice(0, 4)
+    const years =
+      y1 && y2 && y1 !== y2 ? `${y1} - ${y2}` : y1 || y2 || String(new Date().getFullYear())
+
+    addProject({
+      id: Date.now().toString(),
+      name: form.name.trim(),
+      icon: 'ðŸª¦',
+      years,
+      status: 'Buried',
+      progress: form.progress,
+      tags: form.tags.split(',').map((t) => t.trim()).filter(Boolean),
+      summary: form.vision.trim().slice(0, 100),
+      vision: form.vision.trim(),
+      completed: lines(form.completed),
+      unfinished: lines(form.unfinished),
+      reason: form.reason,
+      reasonNote: form.reasonNote.trim(),
+      epitaph: form.epitaph.trim(),
+      salvage: lines(form.salvage),
+      link: form.link.trim(),
+      createdAt: form.startDate || new Date().toISOString().slice(0, 10),
+      buriedAt: form.lastActive || new Date().toISOString().slice(0, 10),
+    })
+    navigate('/graveyard')
+  }
+
+  const next = () => {
+        if (step === 3) {
+      save()
+      return

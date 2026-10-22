@@ -3,6 +3,7 @@ import Landing from './pages/Landing'
 import Bury from './pages/Bury'
 import Graveyard from './pages/Graveyard'
 import Compass from './pages/Compass'
+import ProjectDetail from './pages/ProjectDetail'
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
       <Route path="/seance" element={<Bury />} />
       <Route path="/graveyard" element={<Graveyard />} />
       <Route path="/compass" element={<Compass />} />
+      <Route path="/project/:id" element={<ProjectDetail />} />
     </Routes>
   )
 }

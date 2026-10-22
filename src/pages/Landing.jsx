@@ -1,9 +1,7 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
-
-// ghost
-const DURATION = 8 // ek chakkar (left -> right -> left) kitne second mein
-const LOOPS = 3    // ghost kitne chakkar lagaye
+import FrameButton from '../components/FrameButton'
 
 // skeleton ki timeline (seconds)
 const WAIT = 2     // girne se pehle upar kitna ruke
@@ -15,13 +13,19 @@ const TOTAL = WAIT + DROP + BOUNCE + HOLD + RISE
 
 const t = (s) => s / TOTAL
 
+// skeleton ka copper rang
+const copperSolid =
+  'border border-[#e0905a]/70 bg-gradient-to-b from-[#d98250] to-[#9a522b] text-[#1c0d05] shadow-[0_0_22px_rgba(200,116,60,0.5)] hover:from-[#e8935f] hover:to-[#a95c32] hover:shadow-[0_0_34px_rgba(224,144,90,0.75)]'
+const copperOutline =
+  'border-2 border-[#c8743c] bg-black/60 text-[#e8a370] shadow-[0_0_18px_rgba(200,116,60,0.35)] backdrop-blur-sm hover:bg-[#c8743c]/20 hover:text-[#f3b88c] hover:shadow-[0_0_30px_rgba(224,144,90,0.6)]'
+
 export default function Landing() {
   return (
     // poori screen, koi scroll nahi
     <div className="relative h-dvh w-full overflow-hidden bg-black">
       <Navbar />
 
-      {/* shake wala layer; zoom neeche ke kinare se hota hai, isliye extra hissa upar se katta hai */}
+      {/* shake wala layer; extra hissa upar se cut hota hai */}
       <motion.div
         className="absolute inset-0"
         style={{ scale: 1.04, transformOrigin: 'bottom center' }}
@@ -45,43 +49,12 @@ export default function Landing() {
           ],
         }}
       >
-        {/* object-bottom: image neeche se tikti hai, extra hissa upar se cut hota hai */}
         <img
           src="/images/gate-bg.png"
           alt="Welcome to The Project Graveyard"
           draggable={false}
           className="absolute inset-0 h-full w-full select-none object-cover object-bottom"
         />
-
-        {/* ghost: left -> right -> left, LOOPS chakkar ke baad fade out */}
-        <motion.div
-          className="pointer-events-none absolute top-[15%] w-[14%]"
-          initial={{ left: '1%', opacity: 1 }}
-          animate={{ left: ['1%', '85%', '1%'], opacity: 0 }}
-          transition={{
-            left: { duration: DURATION, ease: 'linear', repeat: LOOPS - 1 },
-            opacity: { delay: DURATION * LOOPS - 0.6, duration: 0.6 },
-          }}
-        >
-          <motion.div
-            animate={{ scaleX: [1, 1, -1, -1] }}
-            transition={{
-              duration: DURATION,
-              times: [0, 0.49, 0.5, 1],
-              ease: 'linear',
-              repeat: LOOPS - 1,
-            }}
-          >
-            <motion.img
-              src="/images/ghost.png"
-              alt=""
-              draggable={false}
-              className="w-full select-none opacity-60 drop-shadow-[0_0_25px_rgba(200,255,230,0.5)]"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </motion.div>
-        </motion.div>
 
         {/* skeleton: WAIT sec baad dhadaam, HOLD sec ruka, RISE sec mein upar, phir dobara */}
         <motion.div
@@ -128,6 +101,22 @@ export default function Landing() {
           />
         </motion.div>
       </motion.div>
+
+    {/* buttons: shake layer ke bahar, isliye hilte nahi */}
+<motion.div
+  className="absolute bottom-[4%] left-1/2 z-20 flex -translate-x-1/2 items-center gap-6"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.4, duration: 0.7 }}
+>
+  <FrameButton to="/graveyard" className="w-[260px]" textClass="text-xl">
+    Graveyard
+  </FrameButton>
+
+  <FrameButton to="/seance" className="w-[260px]" textClass="text-xl">
+    Bury a Project
+  </FrameButton>
+</motion.div>
     </div>
   )
 }

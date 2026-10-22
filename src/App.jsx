@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Bury from './pages/Bury'
 import Graveyard from './pages/Graveyard'
+import Compass from './pages/Compass'
 import ProjectDetail from './pages/ProjectDetail'
 import MapPage from './pages/map'
 
@@ -12,6 +13,7 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/seance" element={<Bury />} />
       <Route path="/graveyard" element={<Graveyard />} />
+      <Route path="/compass/:id" element={<Compass />} />
       <Route path="/project/:id" element={<ProjectDetail />} />
       <Route path="/map" element={<MapPage />} />
     </Routes>

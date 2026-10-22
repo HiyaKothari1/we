@@ -41,9 +41,10 @@ function Skull({ className }) {
     </svg>
   )
 }
-
 export default function TombstoneCard({ project }) {
   const cfg = statusConfig[project.status] || statusConfig.Buried
+  const progress = project.progress ?? 0
+  const tags = (project.tags || []).slice(0, 3)
 
   return (
     <motion.div className="@container" whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 300 }}>
@@ -54,36 +55,36 @@ export default function TombstoneCard({ project }) {
           className={`absolute inset-0 h-full w-full object-contain transition duration-300 ${cfg.glow}`}
         />
 
-        {/* text on the stone face */}
-        <div className="absolute bottom-[11%] left-[27%] right-[11%] top-[37%] flex flex-col items-center rounded-xl bg-black/35 px-[3cqw] py-[2.5cqw] text-center [text-shadow:0_1px_4px_rgba(0,0,0,0.95)]">
+        {/* text sirf stone face ke andar */}
+        <div className="absolute bottom-[15%] left-[28%] right-[21%] top-[36%] flex flex-col items-center overflow-hidden rounded-xl bg-black/35 px-[2.5cqw] py-[2cqw] text-center [text-shadow:0_1px_4px_rgba(0,0,0,0.95)]">
           <span
-           className={`relative -left-[3cqw] rounded-full px-[4cqw] py-[1cqw] font-semibold [font-size:3.8cqw] [text-shadow:none] ${cfg.badge}`}
+            className={`rounded-full px-[4cqw] py-[1cqw] font-semibold [font-size:3.6cqw] [text-shadow:none] ${cfg.badge}`}
           >
             {project.status}
           </span>
 
-          <h3 className="mt-[2cqw] break-words font-serif leading-tight text-stone-100 [font-size:7.4cqw]">
+          <h3 className="mt-[1.8cqw] max-w-full break-words font-serif leading-tight text-stone-100 [font-size:6.6cqw]">
             {project.name}
           </h3>
-          <p className="text-stone-300 [font-size:4cqw]">{project.years}</p>
-          <p className="mt-[1.8cqw] line-clamp-3 leading-snug text-stone-300/90 [font-size:4.2cqw]">
+          <p className="text-stone-300 [font-size:3.8cqw]">{project.years}</p>
+          <p className="mt-[1.5cqw] line-clamp-2 leading-snug text-stone-300/90 [font-size:3.8cqw]">
             {project.summary}
           </p>
 
           <div className="mt-auto w-full">
-            <div className="flex items-center gap-[2cqw] text-stone-100 [font-size:4.2cqw]">
-              <Skull className={`h-[5.2cqw] w-[5.2cqw] shrink-0 ${cfg.text}`} />
+            <div className="flex items-center gap-[2cqw] text-stone-100 [font-size:3.8cqw]">
+              <Skull className={`h-[4.6cqw] w-[4.6cqw] shrink-0 ${cfg.text}`} />
               <div className="h-[1.6cqw] flex-1 overflow-hidden rounded-full bg-stone-700/80">
-                <div className={`h-full rounded-full ${cfg.bar}`} style={{ width: `${project.progress}%` }} />
+                <div className={`h-full rounded-full ${cfg.bar}`} style={{ width: `${progress}%` }} />
               </div>
-              <span>{project.progress}%</span>
+              <span>{progress}%</span>
             </div>
 
-            <div className="mt-[2cqw] flex flex-wrap justify-center gap-[1.5cqw]">
-              {project.tags.map((t) => (
+            <div className="mt-[1.8cqw] flex flex-wrap justify-center gap-[1.2cqw]">
+              {tags.map((t) => (
                 <span
                   key={t}
-                  className="rounded-full border border-stone-400/40 bg-black/40 px-[2.5cqw] py-[0.6cqw] text-stone-200 [font-size:3.5cqw]"
+                  className="rounded-full border border-stone-400/40 bg-black/40 px-[2.2cqw] py-[0.5cqw] text-stone-200 [font-size:3.2cqw]"
                 >
                   {t}
                 </span>

@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 const links = [
   { to: '/', label: 'Home' },
   { to: '/graveyard', label: 'Graveyard' },
-  { to: '/about', label: 'About' },
+  { to: '/map', label: 'Map' },
 ]
 
 export default function Navbar() {

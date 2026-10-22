@@ -1,62 +1,133 @@
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
 
-const features = [
-  { icon: '📦', title: 'Remember', text: 'Capture the story' },
-  { icon: '⏳', title: 'Reflect', text: 'Learn from the past' },
-  { icon: '🔭', title: 'Revive', text: 'Give ideas a second chance' },
-]
+// ghost
+const DURATION = 8 // ek chakkar (left -> right -> left) kitne second mein
+const LOOPS = 3    // ghost kitne chakkar lagaye
+
+// skeleton ki timeline (seconds)
+const WAIT = 2     // girne se pehle upar kitna ruke
+const DROP = 0.3   // girne mein lagne wala waqt (chhota = zyada tez/thappp)
+const BOUNCE = 0.3 // zameen par thup + rebound
+const HOLD = 5     // neeche kitni der ruka rahe
+const RISE = 3     // wapas upar jaane mein
+const TOTAL = WAIT + DROP + BOUNCE + HOLD + RISE
+
+const t = (s) => s / TOTAL
 
 export default function Landing() {
   return (
-    <section
-      className="relative min-h-screen overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: "url('/images/gate-bg.jpg')" }}
-    >
-      <div className="absolute inset-0 bg-night/55" />
+    // poori screen, koi scroll nahi
+    <div className="relative h-dvh w-full overflow-hidden bg-black">
       <Navbar />
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-24 pb-40 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="font-metal text-6xl leading-tight tracking-wide text-moon md:text-8xl drop-shadow-[0_0_18px_rgba(142,230,160,0.55)]"
+      {/* shake wala layer; zoom neeche ke kinare se hota hai, isliye extra hissa upar se katta hai */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ scale: 1.04, transformOrigin: 'bottom center' }}
+        animate={{
+          x: [0, 0, -7, 7, -4, 4, 0, 0],
+          y: [0, 0, 0, -3, 0, -2, 0, 0],
+        }}
+        transition={{
+          duration: TOTAL,
+          repeat: Infinity,
+          ease: 'linear',
+          times: [
+            0,
+            t(WAIT + DROP),
+            t(WAIT + DROP + 0.08),
+            t(WAIT + DROP + 0.16),
+            t(WAIT + DROP + 0.24),
+            t(WAIT + DROP + 0.32),
+            t(WAIT + DROP + 0.4),
+            1,
+          ],
+        }}
+      >
+        {/* object-bottom: image neeche se tikti hai, extra hissa upar se cut hota hai */}
+        <img
+          src="/images/gate-bg.png"
+          alt="Welcome to The Project Graveyard"
+          draggable={false}
+          className="absolute inset-0 h-full w-full select-none object-cover object-bottom"
+        />
+
+        {/* ghost: left -> right -> left, LOOPS chakkar ke baad fade out */}
+        <motion.div
+          className="pointer-events-none absolute top-[15%] w-[14%]"
+          initial={{ left: '1%', opacity: 1 }}
+          animate={{ left: ['1%', '85%', '1%'], opacity: 0 }}
+          transition={{
+            left: { duration: DURATION, ease: 'linear', repeat: LOOPS - 1 },
+            opacity: { delay: DURATION * LOOPS - 0.6, duration: 0.6 },
+          }}
         >
-          The<br />Project<br />Graveyard
-        </motion.h1>
-
-        <p className="mt-6 font-serif text-xl md:text-2xl">A resting place for unfinished ideas.</p>
-        <p className="mt-4 text-moon/80">
-          Every idea deserves a proper rest.<br />Not dead, just sleeping.
-        </p>
-
-        <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <Link
-            to="/seance"
-            className="rounded-xl border border-fern bg-night/70 px-8 py-4 font-semibold shadow-[0_0_25px_rgba(142,230,160,0.5)] transition hover:bg-moss"
+          <motion.div
+            animate={{ scaleX: [1, 1, -1, -1] }}
+            transition={{
+              duration: DURATION,
+              times: [0, 0.49, 0.5, 1],
+              ease: 'linear',
+              repeat: LOOPS - 1,
+            }}
           >
-            ⚰️ Bury a Project
-          </Link>
-          <Link
-            to="/graveyard"
-            className="rounded-xl border border-fern/40 bg-night/50 px-8 py-4 font-semibold transition hover:border-fern hover:bg-moss"
-          >
-            🔭 Explore the Graveyard
-          </Link>
-        </div>
-      </div>
+            <motion.img
+              src="/images/ghost.png"
+              alt=""
+              draggable={false}
+              className="w-full select-none opacity-60 drop-shadow-[0_0_25px_rgba(200,255,230,0.5)]"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </motion.div>
+        </motion.div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-10 grid grid-cols-3 gap-2 px-6 pb-8 text-center md:px-24">
-        {features.map((f) => (
-          <div key={f.title}>
-            <div className="text-3xl">{f.icon}</div>
-            <div className="mt-1 font-semibold">{f.title}</div>
-            <div className="text-xs text-moon/70 md:text-sm">{f.text}</div>
-          </div>
-        ))}
-      </div>
-    </section>
+        {/* skeleton: WAIT sec baad dhadaam, HOLD sec ruka, RISE sec mein upar, phir dobara */}
+        <motion.div
+          className="pointer-events-none absolute left-[70%] top-0 w-[14%]"
+          initial={{ y: '-110%' }}
+          animate={{ y: ['-110%', '-110%', '0%', '-7%', '0%', '0%', '-110%'] }}
+          transition={{
+            duration: TOTAL,
+            repeat: Infinity,
+            times: [
+              0,
+              t(WAIT),
+              t(WAIT + DROP),
+              t(WAIT + DROP + BOUNCE / 2),
+              t(WAIT + DROP + BOUNCE),
+              t(WAIT + DROP + BOUNCE + HOLD),
+              1,
+            ],
+            ease: ['linear', [0.75, 0, 1, 0.55], 'easeOut', 'easeIn', 'linear', 'easeInOut'],
+          }}
+        >
+          <motion.img
+            src="/images/skeleton.png"
+            alt=""
+            draggable={false}
+            className="w-full select-none drop-shadow-[0_8px_18px_rgba(0,0,0,0.7)]"
+            style={{ transformOrigin: 'top center' }}
+            animate={{ rotate: [0, 0, 5, -4, 2, 0, 0, 0] }}
+            transition={{
+              duration: TOTAL,
+              repeat: Infinity,
+              ease: 'easeOut',
+              times: [
+                0,
+                t(WAIT),
+                t(WAIT + DROP),
+                t(WAIT + DROP + 0.12),
+                t(WAIT + DROP + 0.25),
+                t(WAIT + DROP + BOUNCE),
+                t(WAIT + DROP + BOUNCE + HOLD),
+                1,
+              ],
+            }}
+          />
+        </motion.div>
+      </motion.div>
+    </div>
   )
 }
